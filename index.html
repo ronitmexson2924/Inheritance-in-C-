@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ Inheritance Tutorial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', () => hljs.highlightAll());</script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.sticky {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 0.8rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .nav-links a:hover {
+            color: #0066cc;
+        }
+
+        .nav-links a.active {
+            color: #0066cc;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #0066cc;
+        }
+
+        .burger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .burger div {
+            width: 25px;
+            height: 3px;
+            background-color: #333;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle .line1 {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .toggle .line2 {
+            opacity: 0;
+        }
+
+        .toggle .line3 {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .hero {
+            height: 70vh;
+            background: linear-gradient(135deg, #0066cc, #00cc99);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: white;
+            color: #0066cc;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .btn:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .content-section {
+            padding: 5rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .content-section h2 {
+            text-align: center;
+            color: #0066cc;
+            margin-bottom: 2.5rem;
+            font-size: 3rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .card h3 {
+            color: #0066cc;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .card p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .analogy-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 3rem 0;
+            gap: 1.5rem;
+        }
+
+        .parent, .child {
+            background-color: #e6f2ff;
+            border: 2px solid #0066cc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            width: 300px;
+            text-align: center;
+        }
+
+        .parent p, .child p {
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .arrow {
+            font-size: 2.5rem;
+            color: #0066cc;
+        }
+
+        .benefits-list {
+            list-style-type: none;
+            margin-left: 1rem;
+        }
+
+        .benefits-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        .benefits-list li:before {
+            content: "•";
+            color: #0066cc;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+        }
+
+        .code-example {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        pre {
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .problem-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .problem-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+
+        .problem-card h4 {
+            color: #0066cc;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #e6f2ff;
+            padding-bottom: 0.5rem;
+        }
+
+        .quiz-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+
+        .quiz-question {
+            margin-bottom: 2rem;
+        }
+
+        .quiz-question h4 {
+            color: #0066cc;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quiz-option input {
+            margin-right: 0.5rem;
+        }
+
+        .submit-quiz {
+            background-color: #0066cc;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+
+        .submit-quiz:hover {
+            background-color: #0055aa;
+        }
+
+        .inheritance-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .compiler-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .compiler-header {
+            background: #0066cc;
+            color: white;
+            padding: 10px 15px;
+            font-weight: bold;
+        }
+
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @keyframes navLinkFade {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0px);
+            }
+        }
+
+        @media screen and (max-width: 1024px) {
+            body {
+                min-width: auto;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .content-section {
+                padding: 3rem 2rem;
+            }
+
+            .card {
+                padding: 2rem;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                right: 0;
+                height: 100vh;
+                top: 0;
+                background-color: white;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 50%;
+                transform: translateX(100%);
+                transition: transform 0.5s ease-in;
+                padding-top: 5rem;
+                z-index: 99;
+            }
+
+            .nav-links li {
+                opacity: 0;
+                margin: 1.5rem 0;
+            }
+
+            .burger {
+                display: block;
+                z-index: 100;
+            }
+
+            .nav-active {
+                transform: translateX(0%);
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">C++ Inheritance</div>
+            <ul class="nav-links">
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#types">Types</a></li>
+                <li><a href="#problems">Problems</a></li>
+                <li><a href="#concepts">About</a></li>
+
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Mastering C++ Inheritance: A Step-by-Step Tutorial</h1>
+            <p>Gain expertise in a core principle that defines object-oriented software design.</p>
+            <a href="#introduction" class="btn">Start Learning</a>
+        </div>
+    </section>
+
+    <section id="introduction" class="content-section">
+        <h2>Introduction to Inheritance</h2>
+        <div class="card">
+            <h3>What is Inheritance?</h3>
+            <p>Inheritance in C++ is a core OOP concept where a derived class (child) inherits attributes and methods from a base class (parent), enabling code reusability and logical hierarchies. It represents an "is-a" relationship between classes, allowing developers to extend functionality without duplicating code.</p>
+
+            <h3>Real-World Analogy</h3>
+            <p>Think of inheritance like genetic inheritance in families. Just as children inherit traits from their parents, derived classes inherit attributes and methods from base classes.</p>
+
+            <div class="analogy-diagram">
+                    <div class="parent">
+                    <p>Parent Class</p>
+                    <ul>
+                        <li>Attributes</li>
+                        <li>Methods</li>
+                        <li>Properties</li>
+                    </ul>
+                </div>
+                <div class="arrow">↓</div>
+                <div class="child">
+                    <p>Child Class</p>
+                    <ul>
+                        <li>Inherited Elements</li>
+                        <li>+ New Attributes</li>
+                        <li>+ New Methods</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Benefits of Inheritance</h3>
+            <ul class="benefits-list">
+                <li><strong>Code Reusability:</strong> Reuse attributes and methods of existing classes</li>
+                <li><strong>Reduced Redundancy:</strong> Avoid duplicating code across multiple classes</li>
+                <li><strong>Extensibility:</strong> Extend functionality of existing classes without modifying them</li>
+                <li><strong>Hierarchical Classification:</strong> Create logical class hierarchies that model real-world relationships</li>
+                <li><strong>Transitive Nature:</strong> If class C inherits from B, and B inherits from A, then C inherits from A</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="types" class="content-section">
+        <h2>Types of Inheritance</h2>
+        <div class="card">
+            <h3>Single Inheritance</h3>
+            <p>A derived class inherits from only one base class. This is the simplest form of inheritance.</p>
+            
+            <div class="inheritance-diagram">
+                <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="100" y="20" width="100" height="50" rx="10" fill="#0066cc"/>
+                    <text x="150" y="50" text-anchor="middle" fill="white">Base Class</text>
+                    <polygon points="150,70 140,80 160,80" fill="#333"/>
+                    <line x1="150" y1="70" x2="150" y2="120" stroke="#333" stroke-width="2"/>
+                    <rect x="100" y="120" width="100" height="50" rx="10" fill="#00cc99"/>
+                    <text x="150" y="150" text-anchor="middle" fill="white">Derived Class</text>
+                </svg>
+            </div>
+            
+            <div class="code-example">
+                <pre><code class="language-cpp">
+// Single Inheritance Example
+class Vehicle {
+protected:
+    string brand = "Unknown";
+    
+public:
+    void honk() {
+        cout << "Tuut, tuut!" << endl;
+    }
+};
+
+class Car : public Vehicle {
+private:
+    string model = "Unknown";
+    
+public:
+    void display() {
+        cout << "Brand: " << brand << ", Model: " << model << endl;
+    }
+};
+                </code></pre>
+            </div>
+
+            <h3>Multiple Inheritance</h3>
+            <p>A derived class inherits from two or more base classes. This allows combining functionality from different sources.</p>
+            
+            <div class="inheritance-diagram">
+                <svg width="400" height="250" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="75" y="20" width="100" height="50" rx="10" fill="#0066cc"/>
+                    <text x="125" y="50" text-anchor="middle" fill="white">Base Class 1</text>
+                    
+                    <rect x="225" y="20" width="100" height="50" rx="10" fill="#0066cc"/>
+                    <text x="275" y="50" text-anchor="middle" fill="white">Base Class 2</text>
+                    
+                    <polygon points="125,70 115,80 135,80" fill="#333"/>
+                    <line x1="125" y1="70" x2="125" y2="130" stroke="#333" stroke-width="2"/>
+                    
+                    <polygon points="275,70 265,80 285,80" fill="#333"/>
+                    <line x1="275" y1="70" x2="275" y2="130" stroke="#333" stroke-width="2"/>
+                    
+                    <line x1="125" y1="130" x2="275" y2="130" stroke="#333" stroke-width="2"/>
+                    <polygon points="200,130 190,140 210,140" fill="#333"/>
+                    <line x1="200" y1="130" x2="200" y2="170" stroke="#333" stroke-width="2"/>
+                    
+                    <rect x="150" y="170" width="100" height="50" rx="10" fill="#00cc99"/>
+                    <text x="200" y="200" text-anchor="middle" fill="white">Derived Class</text>
+                </svg>
+            </div>
+            
+            <div class="code-example">
+                <pre><code class="language-cpp">
+// Multiple Inheritance Example
+class Engine {
+public:
+    void start() {
+        cout << "Engine started" << endl;
+    }
+};
+
+class Wheels {
+public:
+    void rotate() {
+        cout << "Wheels rotating" << endl;
+    }
+};
+
+class Car : public Engine, public Wheels {
+public:
+    void drive() {
+        start();  // From Engine
+        rotate(); // From Wheels
+        cout << "Car is moving" << endl;
+    }
+};
+                </code></pre>
+            </div>
+
+            <h3>Multilevel Inheritance</h3>
+            <p>A derived class inherits from a base class, which in turn inherits from another base class, forming a chain of inheritance.</p>
+
+            <div class="inheritance-diagram">
+                <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Grandparent -->
+                    <rect x="100" y="20" width="100" height="50" rx="10" fill="#0066cc"/>
+                    <text x="150" y="50" text-anchor="middle" dy="5" fill="white">Grandparent</text>
+
+                    <!-- Arrow to Parent -->
+                    <polygon points="150,70 140,80 160,80" fill="#333"/>
+                    <line x1="150" y1="70" x2="150" y2="120" stroke="#333" stroke-width="2"/>
+
+                    <!-- Parent -->
+                    <rect x="100" y="120" width="100" height="50" rx="10" fill="#4da6ff"/>
+                    <text x="150" y="150" text-anchor="middle" dy="5" fill="white">Parent</text>
+
+                    <!-- Arrow to Child -->
+                    <polygon points="150,170 140,180 160,180" fill="#333"/>
+                    <line x1="150" y1="170" x2="150" y2="220" stroke="#333" stroke-width="2"/>
+
+                    <!-- Child -->
+                    <rect x="100" y="220" width="100" height="50" rx="10" fill="#00cc99"/>
+                    <text x="150" y="250" text-anchor="middle" dy="5" fill="white">Child</text>
+                </svg>
+            </div>
+
+            <div class="code-example">            
+                <pre><code class="language-cpp">
+// Multilevel Inheritance Example
+class Animal {
+public:
+    void eat() {
+        cout << "Animal is eating" << endl;
+    }
+};
+
+class Mammal : public Animal {
+public:
+    void breathe() {
+        cout << "Mammal is breathing" << endl;
+    }
+};
+
+class Dog : public Mammal {
+public:
+    void bark() {
+        cout << "Dog is barking" << endl;
+    }
+
+    void showAbilities() {
+        eat();      // From Animal (grandparent)
+        breathe();  // From Mammal (parent)
+        bark();     // Own method
+    }
+};
+                </code></pre>
+            </div>
+
+            <h3>Hierarchical Inheritance</h3>
+            <p>Multiple derived classes inherit from a single base class, creating a hierarchy where each derived class has its own specialized functionality.</p>
+
+            <div class="inheritance-diagram">
+                <svg width="400" height="250" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="150" y="20" width="100" height="50" rx="10" fill="#0066cc"/>
+                    <text x="200" y="50" text-anchor="middle" fill="white">Base Class</text>
+
+                    <polygon points="150,70 140,80 160,80" fill="#333"/>
+                    <line x1="150" y1="70" x2="75" y2="150" stroke="#333" stroke-width="2"/>
+
+                    <polygon points="200,70 190,80 210,80" fill="#333"/>
+                    <line x1="200" y1="70" x2="200" y2="150" stroke="#333" stroke-width="2"/>
+
+                    <polygon points="250,70 240,80 260,80" fill="#333"/>
+                    <line x1="250" y1="70" x2="325" y2="150" stroke="#333" stroke-width="2"/>
+
+                    <rect x="25" y="150" width="100" height="50" rx="10" fill="#00cc99"/>
+                    <text x="75" y="180" text-anchor="middle" fill="white">Derived Class 1</text>
+
+                    <rect x="150" y="150" width="100" height="50" rx="10" fill="#00cc99"/>
+                    <text x="200" y="180" text-anchor="middle" fill="white">Derived Class 2</text>
+
+                    <rect x="275" y="150" width="100" height="50" rx="10" fill="#00cc99"/>
+                    <text x="325" y="180" text-anchor="middle" fill="white">Derived Class 3</text>
+                </svg>
+            </div>
+
+            <div class="code-example">
+                <pre><code class="language-cpp">
+// Hierarchical Inheritance Example
+class Shape {
+protected:
+    double area;
+public:
+    void displayArea() {
+        cout << "Area: " << area << endl;
+    }
+};
+
+class Circle : public Shape {
+private:
+    double radius;
+public:
+    Circle(double r) : radius(r) {
+        area = 3.14159 * radius * radius;
+    }
+
+    void displayType() {
+        cout << "This is a Circle" << endl;
+    }
+};
+
+class Rectangle : public Shape {
+private:
+    double length, width;
+public:
+    Rectangle(double l, double w) : length(l), width(w) {
+        area = length * width;
+    }
+
+    void displayType() {
+        cout << "This is a Rectangle" << endl;
+    }
+};
+
+class Triangle : public Shape {
+private:
+    double base, height;
+public:
+    Triangle(double b, double h) : base(b), height(h) {
+        area = 0.5 * base * height;
+    }
+
+    void displayType() {
+        cout << "This is a Triangle" << endl;
+    }
+};
+            </code></pre>
+                </div>
+
+    <section id="problems" class="content-section">
+        <h2>Common Problems in Inheritance</h2>
+        <div class="card">
+            <h3>The Diamond Problem</h3>
+            <p>The diamond problem occurs when a class inherits from two classes that both inherit from a common base class, creating ambiguity about which version of the base class's members to use.</p>
+
+            <div class="inheritance-diagram">
+                <svg width="400" height="350" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Vehicle (Base Class) -->
+                    <rect x="150" y="20" width="100" height="50" rx="10" fill="#0066cc"/>
+                    <text x="200" y="50" text-anchor="middle" fill="white">Vehicle</text>
+                
+                    <!-- Arrows from Vehicle to Car and Boat -->
+                    <polygon points="175,70 165,80 185,80" fill="#333"/>
+                    <line x1="175" y1="70" x2="100" y2="120" stroke="#333" stroke-width="2"/>
+                
+                    <polygon points="225,70 215,80 235,80" fill="#333"/>
+                    <line x1="225" y1="70" x2="300" y2="120" stroke="#333" stroke-width="2"/>
+                
+                    <!-- Car Class -->
+                    <rect x="50" y="120" width="100" height="50" rx="10" fill="#4da6ff"/>
+                    <text x="100" y="145" text-anchor="middle" fill="white">Car</text>
+                    <text x="100" y="165" text-anchor="middle" fill="white" font-size="10">(virtual)</text>
+                
+                    <!-- Boat Class -->
+                    <rect x="250" y="120" width="100" height="50" rx="10" fill="#4da6ff"/>
+                    <text x="300" y="145" text-anchor="middle" fill="white">Boat</text>
+                    <text x="300" y="165" text-anchor="middle" fill="white" font-size="10">(virtual)</text>
+                
+                <!-- Arrows from Car and Boat to AmphibiousVehicle -->
+                    <polygon points="100,170 90,180 110,180" fill="#333"/>
+                    <line x1="100" y1="170" x2="150" y2="220" stroke="#333" stroke-width="2"/>
+                
+                    <polygon points="300,170 290,180 310,180" fill="#333"/>
+                    <line x1="300" y1="170" x2="250" y2="220" stroke="#333" stroke-width="2"/>
+                
+                    <!-- Direct inheritance from Vehicle to AmphibiousVehicle -->
+                    <line x1="200" y1="70" x2="200" y2="220" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+                
+                    <!-- AmphibiousVehicle Class -->
+                    <rect x="150" y="220" width="100" height="50" rx="10" fill="#00cc99"/>
+                    <text x="200" y="250" text-anchor="middle" fill="white">Amphibious</text>
+                    <text x="200" y="265" text-anchor="middle" fill="white" font-size="10">Vehicle</text>
+                
+                    <!-- Diamond outline to highlight the problem -->
+                    <polygon points="200,20 100,120 200,220 300,120" fill="none" stroke="#ff6600" stroke-width="2" stroke-dasharray="5,5" opacity="0.7"/>
+                
+                    <!-- Legend -->
+                    <rect x="20" y="300" width="15" height="15" fill="#0066cc"/>
+                    <text x="45" y="313" font-size="12">Base Class</text>
+                
+                    <rect x="120" y="300" width="15" height="15" fill="#4da6ff"/>
+                    <text x="145" y="313" font-size="12">Intermediate Classes</text>
+                
+                    <rect x="270" y="300" width="15" height="15" fill="#00cc99"/>
+                    <text x="295" y="313" font-size="12">Final Derived Class</text>
+                
+                    <line x1="20" y="330" x2="40" y2="330" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="115" y="333" font-size="12">Virtual Inheritance Path</text>
+                </svg>
+            </div>
+        
+            <p>In this example, <code>AmphibiousVehicle</code> inherits from both <code>Car</code> and <code>Boat</code>, which both inherit from <code>Vehicle</code>. Without virtual inheritance, <code>AmphibiousVehicle</code> would contain two separate <code>Vehicle</code> instances, causing ambiguity. Using <code>virtual</code> inheritance ensures only one <code>Vehicle</code> instance exists in the hierarchy.</p>
+        
+            <div class="code-example">
+                <pre><code class="language-cpp">
+// Diamond Problem Example    
+#include &lt;iostream&gt;
+using namespace std;
+
+class Vehicle {
+protected:
+    string registrationNumber;
+public:
+    Vehicle(string reg = "UNKNOWN") : registrationNumber(reg) {
+        cout &lt;&lt; "Vehicle constructor called" &lt;&lt; endl;
+    }
+    
+    virtual void startEngine() {
+        cout &lt;&lt; "Vehicle engine starting..." &lt;&lt; endl;
+    }
+    
+    void displayRegistration() {
+        cout &lt;&lt; "Registration Number: " &lt;&lt; registrationNumber &lt;&lt; endl;
+    }
+    
+    virtual ~Vehicle() {
+        cout &lt;&lt; "Vehicle destructor called" &lt;&lt; endl;
+    }
+};
+
+class Car : virtual public Vehicle {
+protected:
+    int numDoors;
+public:
+    Car(string reg = "CAR-REG", int doors = 4) : Vehicle(reg), numDoors(doors) {
+        cout &lt;&lt; "Car constructor called" &lt;&lt; endl;
+    }
+    
+    void startEngine() override {
+        cout &lt;&lt; "Car engine starting with key turn..." &lt;&lt; endl;
+    }
+    
+    void drive() {
+        cout &lt;&lt; "Car driving on road" &lt;&lt; endl;
+    }
+    
+    ~Car() {
+        cout &lt;&lt; "Car destructor called" &lt;&lt; endl;
+    }
+};
+
+class Boat : virtual public Vehicle {
+protected:
+    int propellerCount;
+public:
+    Boat(string reg = "BOAT-REG", int propellers = 1) : Vehicle(reg), propellerCount(propellers) {
+        cout &lt;&lt; "Boat constructor called" &lt;&lt; endl;
+    }
+    
+    void startEngine() override {
+        cout &lt;&lt; "Boat engine starting with push button..." &lt;&lt; endl;
+    }
+    
+    void sail() {
+        cout &lt;&lt; "Boat sailing on water" &lt;&lt; endl;
+    }
+    
+    ~Boat() {
+        cout &lt;&lt; "Boat destructor called" &lt;&lt; endl;
+    }
+};
+
+class AmphibiousVehicle : public Car, public Boat {
+private:
+    bool isInWaterMode;
+public:
+    AmphibiousVehicle(string reg = "AMPHI-REG", int doors = 2, int propellers = 2) 
+        : Vehicle(reg), Car(reg + "-CAR", doors), Boat(reg + "-BOAT", propellers), isInWaterMode(false) {
+        cout &lt;&lt; "AmphibiousVehicle constructor called" &lt;&lt; endl;
+    }
+    
+    void startEngine() {
+        if (isInWaterMode) {
+            Boat::startEngine();
+        } else {
+            Car::startEngine();
+        }
+    }
+    
+    void toggleMode() {
+        isInWaterMode = !isInWaterMode;
+        cout &lt;&lt; "Switching to " &lt;&lt; (isInWaterMode ? "water" : "land") &lt;&lt; " mode" &lt;&lt; endl;
+    }
+    
+    void displayRegistration() {
+        cout &lt;&lt; "Amphibious Vehicle Registrations:" &lt;&lt; endl;
+        cout &lt;&lt; "Primary registration: ";
+        Vehicle::displayRegistration();
+        cout &lt;&lt; "Car registration: " &lt;&lt; Car::registrationNumber &lt;&lt; endl;
+        cout &lt;&lt; "Boat registration: " &lt;&lt; Boat::registrationNumber &lt;&lt; endl;
+    }
+    
+    ~AmphibiousVehicle() {
+        cout &lt;&lt; "AmphibiousVehicle destructor called" &lt;&lt; endl;
+    }
+};
+
+int main() {
+    cout &lt;&lt; "Creating an amphibious vehicle..." &lt;&lt; endl;
+    AmphibiousVehicle amphibious("AV-123");
+    
+    cout &lt;&lt; "\nCalling methods on the amphibious vehicle:" &lt;&lt; endl;
+    amphibious.startEngine();
+    amphibious.displayRegistration();
+    
+    cout &lt;&lt; "\nChanging mode and starting engine again:" &lt;&lt; endl;
+    amphibious.toggleMode();
+    amphibious.startEngine();
+    
+    cout &lt;&lt; "\nAccessing Vehicle methods directly is now possible:" &lt;&lt; endl;
+    amphibious.Vehicle::startEngine();
+    
+    cout &lt;&lt; "\nDestroying the amphibious vehicle..." &lt;&lt; endl;
+    return 0;
+}
+            </code></pre>
+        </div>
+
+            <h3>Expected Output</h3>
+            <div class="code-example">
+                <pre><code>
+Creating an amphibious vehicle...
+Vehicle constructor called
+Car constructor called
+Boat constructor called
+AmphibiousVehicle constructor called
+
+Calling methods on the amphibious vehicle:
+Car engine starting with key turn...
+Amphibious Vehicle Registrations:
+Primary registration: Registration Number: AV-123
+Car registration: AV-123-CAR
+Boat registration: AV-123-BOAT
+
+Changing mode and starting engine again:
+Switching to water mode
+Boat engine starting with push button...
+
+Accessing Vehicle methods directly is now possible:
+Vehicle engine starting...
+
+Destroying the amphibious vehicle...
+AmphibiousVehicle destructor called
+Boat destructor called
+Car destructor called
+Vehicle destructor called
+                </code></pre>
+            </div>
+
+            <h3>Solution to the Diamond Problem</h3>
+            <p>The diamond problem is solved in C++ using virtual inheritance. When a class is virtually inherited, only one instance of the base class exists in the inheritance hierarchy, regardless of how many inheritance paths exist to it.</p>
+        
+            <p>Key points about virtual inheritance:</p>
+            <ul class="benefits-list">
+                <li><strong>Single Base Class Instance:</strong> Only one copy of the base class exists in the final derived class</li>
+                <li><strong>Constructor Initialization:</strong> The most derived class must initialize virtual base classes directly</li>
+                <li><strong>Memory Efficiency:</strong> Reduces memory usage by avoiding duplicate base class members</li>
+                <li><strong>Ambiguity Resolution:</strong> Eliminates the need to specify which inheritance path to use when accessing base class members</li>
+            </ul>
+        
+            <p>Without virtual inheritance, the code would not compile due to ambiguity errors when trying to access members of the Vehicle class from the AmphibiousVehicle class.</p>
+        </div>
+    
+        <!-- You can add more common problems here -->
+        <div class="card">
+            <h3>Slicing Problem</h3>
+            <p>The slicing problem occurs when a derived class object is assigned to a base class object, causing the derived class-specific members to be "sliced off" and lost.</p>
+        
+            <div class="code-example">
+               <pre><code class="language-cpp">
+// Slicing Problem Example
+class Base {
+protected:
+    int baseValue;
+public:
+    Base(int val = 0) : baseValue(val) {}
+    virtual void display() {
+        cout << "Base value: " << baseValue << endl;
+    }
+};
+
+class Derived : public Base {
+private:
+    int derivedValue;
+public:
+    Derived(int bVal = 0, int dVal = 0) : Base(bVal), derivedValue(dVal) {}
+    void display() override {
+        Base::display();
+        cout << "Derived value: " << derivedValue << endl;
+    }
+};
+
+int main() {
+    Derived d(10, 20);
+    Base b = d;  // Slicing occurs here - derivedValue is lost
+    
+    d.display();  // Shows both values
+    b.display();  // Only shows baseValue, calls Base::display()
+    
+    return 0;
+}
+            </code></pre>
+        </div>
+        
+        <p>To avoid slicing, use pointers or references to base class types when working with polymorphism:</p>
+        
+        <div class="code-example">
+            <pre><code class="language-cpp">    
+Base* ptr = &d;     // No slicing
+Base& ref = d;      // No slicing
+ptr->display();     // Calls Derived::display()
+ref.display();      // Calls Derived::display()
+                </code></pre>
+            </div>
+        </div>
+    </section>
+    
+    <section id="about" class="content-section" style="padding: 2rem; max-width: 1000px; margin: auto;">
+      <h2 style="color: #007acc; font-size: 2rem; margin-bottom: 1.5rem;">About the Author</h2>
+      <div class="card" style="background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+    
+        <h3 style="margin-top: 0; font-size: 1.5rem; color: #0066cc;">Student Information</h3>
+        <div class="student-info" style="background-color: #f8f9fa; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+          <p style="margin-bottom: 0.5rem;"><strong>Name:</strong> Ronit Mexson</p>
+          <p style="margin-bottom: 0.5rem;"><strong>Course:</strong> B.Tech CSE with specialization in (AI/ML)</p>
+          <p style="margin-bottom: 0.5rem;"><strong>Registration Number:</strong> 24BAI0036</p>
+          <p style="margin-bottom: 0.5rem;"><strong>University:</strong> Vellore Institute of Technology, Vellore</p>
+          <p style="margin-bottom: 0.5rem;"><strong>Department:</strong> Computer Science Engineering</p>
+          <p style="margin-bottom: 0.5rem;"><strong>Year of Study:</strong> 1st Year</p>
+          <p style="margin-bottom: 0.5rem;"><strong>Semester:</strong> 2nd Semester</p>
+          <p style="margin-bottom: 0.5rem;"><strong>Email:</strong> ronit.mexson2024@vitstudent.ac.in</p>
+        </div>
+
+        <h3 style="margin-top: 2rem; font-size: 1.5rem; color: #0066cc;">Project Information</h3>
+        <div class="project-info" style="background-color: #f8f9fa; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+          <p style="margin-bottom: 0.5rem;"><strong>Project Title:</strong> C++ Inheritance Tutorial Website</p>
+          <p style="margin-bottom: 0.5rem;"><strong>Course Code:</strong> BCSE102L</p>
+          <p style="margin-bottom: 0.5rem;"><strong>Instructor:</strong> Dr. Arumuga Arun R.</p>
+          <p style="margin-bottom: 0.5rem;"><strong>Project Description:</strong> This comprehensive educational platform serves as a scholarly resource dedicated to elucidating the principles of inheritance in C++. Developed meticulously as a component of the BCSE102P Structured and Object Oriented Programming Lab curriculum, this website offers an in-depth exploration of inheritance hierarchies, including single, multiple, multilevel, hierarchical, and multipath inheritance paradigms. Through rigorous examination of theoretical concepts complemented by practical implementations, the platform facilitates a profound understanding of this cornerstone object-oriented programming principle. The educational content is structured to progressively build competency, beginning with foundational concepts and advancing to complex inheritance scenarios, thereby enabling students to develop robust programming skills essential for modern software development practices.</p>
+        </div>
+
+        <h3 style="margin-top: 2rem; font-size: 1.5rem; color: #0066cc;">Acknowledgements</h3>
+        <p style="margin-top: 1rem;">I sincerely thank Arumuga Arun Sir for his kind guidance and support throughout this project. I’m also grateful to my classmates for their helpful feedback during the development process.</p>
+     </div>
+    </section>
+</body>    
